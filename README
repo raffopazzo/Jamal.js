@@ -1,0 +1,34 @@
+Jamal.js is a JavaScript library to dynamically create HTML pages, elements and
+widgets.
+
+Before Jamal.js we could do:
+
+    function generateItemHTML(data) {
+        var html = '<li><a href="#">';
+        html += '<img class="thumbnail" src="/' + data.urlThm + '">';
+        html += '<h1>' + data.msg + '</h1>';
+        html += '<p class="timestamp" data-timestamp="' + data.timestamp + '">'+
+                timeSince(data.timestamp) + '</p>';
+        html += '</a></li>';
+        return html;
+    };
+
+This approach is error-prone and hard to maintain. We may use a template engine,
+it would surely get things easier. However, template engine cannot be debugged,
+cannot be tested and most of them don't support widgets reuse.
+
+But with Jamal.js:
+
+    function dataWidget(data) {
+        var widget = JAMAL.a("#");
+        widget.img(data.urlThm).addClassName("thumbnail");
+        widget.h1(data.msg);
+        widget.p(data.timestamp).addClassName("timestamp")
+                                .addData("timestamp", data.timestamp);
+        return widget;
+    }
+
+The function dataWidget is fully debuggable (just put a breakpoint wherever you
+need), fully testable (just write a test function with QUnit.js) and it promotes
+code reuse as we can now invoke the dataWidget() function anywhere in the
+application.
