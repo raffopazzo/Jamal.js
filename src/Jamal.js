@@ -111,13 +111,13 @@ JAMAL = (function() {
      * Create a jamal flow layout.
      */
     this.flowLayout = function() {
-        var child = _appendChild(this, "div", {"className": "jamal-flow-layout"});
+        var child = this.div().addClassName("jamal-flow-layout");
 
         /**
          * Create an item into a flow layout
          */
         child.nextItem = function() {
-            return _appendChild(this, "div", {"className": "jamal-flow-layout-item"});
+            return this.div().addClassName("jamal-flow-layout-item");
         }
         return child;
     }
@@ -164,7 +164,7 @@ JAMAL = (function() {
      * Create a jamal widget.
      */
     this.widget = function() {
-        return _appendChild(this, "div", {"className": "jamal-widget"});
+        return this.div().addClassName("jamal-widget");
     }
 
     return this;

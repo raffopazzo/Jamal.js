@@ -237,3 +237,17 @@ test("Should create flow layout items", function() {
     ok(actual.isEqualNode(expected));
 });
 
+test("Should create child of layout item", function() {
+    // setup
+    var expected = document.createElement("div");
+    var item = expected.appendChild(document.createElement("div"));
+    var div = item.appendChild(document.createElement("div"));
+    expected.className = "jamal-flow-layout";
+    item.className = "jamal-flow-layout-item";
+    // exercise
+    var actual = JAMAL.flowLayout();
+    actual.nextItem().div();
+    // verify
+    ok(actual.isEqualNode(expected));
+});
+
