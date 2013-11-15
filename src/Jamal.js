@@ -101,6 +101,28 @@ JAMAL = (function() {
     };
 
     /**
+     * Create a "DIV" HTML element.
+     */
+    this.div = function() {
+        return _appendChild(this, "div");
+    }
+
+    /**
+     * Create a jamal flow layout.
+     */
+    this.flowLayout = function() {
+        var child = _appendChild(this, "div", {"className": "jamal-flow-layout"});
+
+        /**
+         * Create an item into a flow layout
+         */
+        child.nextItem = function() {
+            return _appendChild(this, "div", {"className": "jamal-flow-layout-item"});
+        }
+        return child;
+    }
+
+    /**
      * Create an "IMG" HTML element. 
      * @param src An optional value for the src attribute. 
      */
@@ -136,6 +158,13 @@ JAMAL = (function() {
      */
     this.li = function(content) {
         return _appendChild(this, "li", {"textContent": content});
+    }
+
+    /**
+     * Create a jamal widget.
+     */
+    this.widget = function() {
+        return _appendChild(this, "div", {"className": "jamal-widget"});
     }
 
     return this;

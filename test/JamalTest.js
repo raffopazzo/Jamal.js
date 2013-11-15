@@ -195,3 +195,45 @@ test("Should append child to list item", function() {
     ok(actual.isEqualNode(expected));
 });
 
+test("Should create div elements", function() {
+    // setup
+    var expected = document.createElement("div");
+    // exercise
+    var actual = JAMAL.div();
+    // verify
+    ok(actual.isEqualNode(expected));
+});
+
+test("Should create widgets", function() {
+    // setup
+    var expected = document.createElement("div");
+    expected.className = "jamal-widget";
+    // exercise
+    var actual = JAMAL.widget();
+    // verify
+    ok(actual.isEqualNode(expected));
+});
+
+test("Should create flow layouts", function() {
+    // setup
+    var expected = document.createElement("div");
+    expected.className = "jamal-flow-layout";
+    // exercise
+    var actual = JAMAL.flowLayout();
+    // verify
+    ok(actual.isEqualNode(expected));
+});
+
+test("Should create flow layout items", function() {
+    // setup
+    var expected = document.createElement("div");
+    var item = expected.appendChild(document.createElement("div"));
+    expected.className = "jamal-flow-layout";
+    item.className = "jamal-flow-layout-item";
+    // exercise
+    var actual = JAMAL.flowLayout();
+    actual.nextItem();
+    // verify
+    ok(actual.isEqualNode(expected));
+});
+
