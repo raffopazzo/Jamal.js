@@ -14,240 +14,199 @@
   limitations under the License.
 */
 
+function wrap(content) {
+    var wrapper = document.createElement("div");
+    wrapper.innerHTML = content;
+    return wrapper;
+}
+
+function assertEquivalentTo(equivalentHtml, actualElement) {
+    var wrapper = wrap(equivalentHtml);
+    ok(actualElement.isEqualNode(wrapper.childNodes[0]));
+}
+
 test("Should create img element", function() {
     // setup
-    var expected = document.createElement("img");
     // exercise
     var actual = JAMAL.img();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<img/>', actual);
 });
 
 test("Should create img element with src attribute", function() {
     // setup
-    var expected = document.createElement("img");
-    expected.setAttribute("src", "/dummy.png");
     // exercise
     var actual = JAMAL.img("/dummy.png");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<img src="/dummy.png"/>', actual);
 });
 
 test("Should add class name to img element with src attribute", function() {
     // setup
-    var expected = document.createElement("img");
-    expected.setAttribute("src", "/dummy.png");
-    expected.className = "dummy-class";
     // exercise
     var actual = JAMAL.img("/dummy.png")
                       .addClassName("dummy-class");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<img src="/dummy.png" class="dummy-class"/>', actual);
 });
 
 test("Should create anchor elements", function() {
     // setup
-    var expected = document.createElement("a");
     // exercise
     var actual = JAMAL.a();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<a/>', actual);
 });
 
 test("Should create anchor elements with href", function() {
     // setup
-    var expected = document.createElement("a");
-    expected.setAttribute("href", "#");
     // exercise
     var actual = JAMAL.a("#");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<a href="#"/>', actual);
 });
 
 test("Should append img to anchor element", function() {
     // setup
-    var expected = document.createElement("a");
-    expected.appendChild(document.createElement("img"));
     // exercise
     var actual = JAMAL.a().img().parentNode;
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<a><img/></a>', actual);
 });
 
 test("Should create h1 elements", function() {
     // setup
-    var expected = document.createElement("h1");
     // exercise
     var actual = JAMAL.h1();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<h1/>', actual);
 });
 
 test("Should create h1 elements with text content", function() {
     // setup
-    var expected = document.createElement("h1");
-    expected.textContent = "dummy";
     // exercise
     var actual = JAMAL.h1("dummy");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<h1>dummy</h1>', actual);
 });
 
 test("Should nest chain of children elements", function() {
     // setup
-    var expected = document.createElement("h1");
-    var a = document.createElement("a");
-    var img = document.createElement("img");
-    expected.appendChild(a);
-    a.appendChild(img);
     // exercise
     var actual = JAMAL.h1().a().img().parentNode.parentNode;
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<h1><a><img/></a></h1>', actual);
 });
 
 test("Should add multiple class name", function() {
     // setup
-    var expected = document.createElement("a");
-    expected.setAttribute("class", "class-1 class-2");
     // exercise
     var actual = JAMAL.a().addClassName("class-1")
                           .addClassName("class-2");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<a class="class-1 class-2"/>', actual);
 });
 
 test("Should create p elements", function() {
     // setup
-    var expected = document.createElement("p");
     // exercise
     var actual = JAMAL.p();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<p/>', actual);
 });
 
 test("Should create p elements with a text content", function() {
     // setup
-    var expected = document.createElement("p");
-    expected.textContent = "dummy";
     // exercise
     var actual = JAMAL.p("dummy");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<p>dummy</p>', actual);
 });
 
 test("Should add class name to last child of a chain", function() {
     // setup
-    var expected = document.createElement("p");
-    var a = document.createElement("a");
-    expected.appendChild(a);
-    expected.className = "class-1";
-    a.className = "class-2";
     // exercise
     var actual = JAMAL.p().addClassName("class-1")
                       .a().addClassName("class-2").parentNode;
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<p class="class-1"><a class="class-2"/></p>', actual);
 });
 
 test("Should add multiple data content name", function() {
     // setup
-    var expected = document.createElement("p");
-    expected.setAttribute("data-1", "value-1");
-    expected.setAttribute("data-2", "value-2");
     // exercise
     var actual = JAMAL.p().addData("1", "value-1")
                           .addData("2", "value-2");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<p data-1="value-1" data-2="value-2"/>', actual);
 });
 
 test("Should support unordered lists", function() {
     // setup
-    var expected = document.createElement("ul");
-    var item1 = document.createElement("li");
-    var item2 = document.createElement("li");
-    item1.textContent = "dummy1";
-    item2.textContent = "dummy2";
-    expected.appendChild(item1);
-    expected.appendChild(item2);
     // exercise
     var actual = JAMAL.ul();
     actual.li("dummy1");
     actual.li("dummy2");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<ul><li>dummy1</li><li>dummy2</li></ul>', actual);
 });
 
 test("Should append child to list item", function() {
     // setup
-    var expected = document.createElement("ul");
-    var item = document.createElement("li");
-    var p = document.createElement("p");
-    var a = document.createElement("a");
-    expected.appendChild(item);
-    item.appendChild(p);
-    p.textContent = "dummy";
     // exercise
     var actual = JAMAL.ul();
     actual.li().p("dummy");
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<ul><li><p>dummy</p></li></ul>', actual);
 });
 
 test("Should create div elements", function() {
     // setup
-    var expected = document.createElement("div");
     // exercise
     var actual = JAMAL.div();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<div/>', actual);
 });
 
 test("Should create widgets", function() {
     // setup
-    var expected = document.createElement("div");
-    expected.className = "jamal-widget";
     // exercise
     var actual = JAMAL.widget();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<div class="jamal-widget"/>', actual);
 });
 
 test("Should create flow layouts", function() {
     // setup
-    var expected = document.createElement("div");
-    expected.className = "jamal-flow-layout";
     // exercise
     var actual = JAMAL.flowLayout();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<div class="jamal-flow-layout"/>', actual);
 });
 
 test("Should create flow layout items", function() {
     // setup
-    var expected = document.createElement("div");
-    var item = expected.appendChild(document.createElement("div"));
-    expected.className = "jamal-flow-layout";
-    item.className = "jamal-flow-layout-item";
     // exercise
     var actual = JAMAL.flowLayout();
     actual.nextItem();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<div class="jamal-flow-layout">'+
+                       '<div class="jamal-flow-layout-item"/>'+
+                       '</div>',
+                       actual);
 });
 
 test("Should create child of layout item", function() {
     // setup
-    var expected = document.createElement("div");
-    var item = expected.appendChild(document.createElement("div"));
-    var div = item.appendChild(document.createElement("div"));
-    expected.className = "jamal-flow-layout";
-    item.className = "jamal-flow-layout-item";
     // exercise
     var actual = JAMAL.flowLayout();
     actual.nextItem().div();
     // verify
-    ok(actual.isEqualNode(expected));
+    assertEquivalentTo('<div class="jamal-flow-layout">'+
+                       '<div class="jamal-flow-layout-item">'+
+                       '<div/>'+
+                       '</div>'+
+                       '</div>',
+                       actual);
 });
 
